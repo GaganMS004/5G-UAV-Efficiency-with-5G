@@ -1,1 +1,92 @@
-5G
+Latency Comparison: Cloud vs Edge Computing with Varying Distance
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Parameters for the simulation
+S_c = 500  # Cloud network speed in Mbps
+S_e = 100  # Edge network speed in Mbps
+P_c = 200  # Cloud processing time in ms
+P_e = 50   # Edge processing time in ms
+T_traffic = 1.2  # Traffic congestion factor
+T_request = 10   # Request size in MB
+
+# Function to calculate latency for Cloud and Edge
+def calculate_latency(D, S, P, T_traffic, T_request):
+    return (D / S) + P + (T_traffic * T_request)
+
+# Simulate for different distances
+distances = np.linspace(1, 500, 100)  # Distance from 1 km to 500 km
+latency_cloud = []
+latency_edge = []
+
+for D in distances:
+    # Calculate latencies for cloud and edge
+    L_c = calculate_latency(D, S_c, P_c, T_traffic, T_request)
+    L_e = calculate_latency(D, S_e, P_e, T_traffic, T_request)
+    
+    latency_cloud.append(L_c)
+    latency_edge.append(L_e)
+
+# Plot the latencies with respect to distance
+plt.figure(figsize=(10, 6))
+plt.plot(distances, latency_cloud, label="Cloud Latency", color='blue', linewidth=2)
+plt.plot(distances, latency_edge, label="Edge Latency", color='green', linewidth=2)
+plt.title('Latency Comparison: Cloud vs Edge Computing with Varying Distance', fontsize=14)
+plt.xlabel('Distance (km)', fontsize=12)
+plt.ylabel('Latency (ms)', fontsize=12)
+plt.legend()
+plt.grid(True)
+plt.show()
+
+
+
+
+
+Comparison of UAV Efficiency With and Without 5G
+
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Step 1: Initialize Data
+coverage_no_5G = [1, 2, 3, 4, 5, 6, 7]  # in km
+speed_no_5G = [5, 10, 12, 13, 14, 14, 15]  # in Mbps
+
+coverage_with_5G = [1, 2, 3, 4, 5, 6, 7]  # in km
+speed_with_5G = [10, 20, 25, 28, 30, 32, 35]  # in Mbps
+
+# Step 2: Calculate Key Statistics
+avg_speed_no_5G = np.mean(speed_no_5G)
+avg_speed_with_5G = np.mean(speed_with_5G)
+
+avg_coverage_no_5G = np.mean(coverage_no_5G)
+avg_coverage_with_5G = np.mean(coverage_with_5G)
+
+# Step 3: Efficiency Difference Calculation
+speed_improvement = np.array(speed_with_5G) - np.array(speed_no_5G)
+coverage_improvement = np.array(coverage_with_5G) - np.array(coverage_no_5G)
+
+# Step 4: Generate Graph
+def plot_graph(coverage_no_5G, speed_no_5G, coverage_with_5G, speed_with_5G):
+    plt.figure(figsize=(8, 6))
+    plt.plot(coverage_no_5G, speed_no_5G, label='Without 5G', marker='o', linestyle='-', color='blue')
+    plt.plot(coverage_with_5G, speed_with_5G, label='With 5G', marker='o', linestyle='--', color='green')
+    plt.xlabel("Coverage Area (km)", fontsize=12)
+    plt.ylabel("Data Transmission Speed (Mbps)", fontsize=12)
+    plt.title("Comparison of UAV Efficiency With and Without 5G", fontsize=14)
+    plt.legend(fontsize=12)
+    plt.grid(True, linestyle='--', alpha=0.6)
+    plt.show()
+
+# Step 5: Output Results
+def output_results():
+    print(f"Average Speed Without 5G: {avg_speed_no_5G:.2f} Mbps")
+    print(f"Average Speed With 5G: {avg_speed_with_5G:.2f} Mbps")
+    print(f"Average Coverage Without 5G: {avg_coverage_no_5G:.2f} km")
+    print(f"Average Coverage With 5G: {avg_coverage_with_5G:.2f} km")
+    print(f"Speed Improvement at each point: {speed_improvement} Mbps")
+    print(f"Coverage Improvement at each point: {coverage_improvement} km")
+
+# Execute Steps
+output_results()
+plot_graph(coverage_no_5G, speed_no_5G, coverage_with_5G, speed_with_5G)
